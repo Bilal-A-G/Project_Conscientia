@@ -6,25 +6,40 @@ public class SpiderBrain : MonoBehaviour
 {
     [SerializeField] private Transform target;
     [SerializeField] private Transform runnerTarget;
-    [SerializeField] private Transform spiderEmpty;
+    [SerializeField] private Transform spider;
     [SerializeField] private float movementSpeed;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float stopRotatingTreshold;
 
-    [SerializeField] private EnemyLegController legController;
-    [SerializeField] private float tiltSpeed;
+    [SerializeField] private float wallClimbDistance;
+    [SerializeField] private float heightOffGround;
+
+    private Transform currentWall;
+    private Vector3 newUpVec;
 
     void Update()
     {
-        spiderEmpty.position = Vector3.Lerp(spiderEmpty.position, target.position, Time.deltaTime * movementSpeed);
+        spider.position = Vector3.Lerp(spider.position, target.position + spider.up * heightOffGround, Time.deltaTime * movementSpeed);
 
-        if ((runnerTarget.position - spiderEmpty.position).magnitude <= stopRotatingTreshold)
+        if ((runnerTarget.position - spider.position).magnitude <= stopRotatingTreshold)
             return;
 
-        spiderEmpty.forward = Vector3.Lerp(spiderEmpty.forward, target.forward, Time.deltaTime * rotationSpeed);
+        RaycastHit wall;
+        if(Physics.Raycast(spider.position, spider.forward, out wall))
+        {
+            if((spider.position - wall.point).magnitude <= wallClimbDistance && 
+                wall.transform.gameObject.name == "Wall" &&
+                (currentWall == null || wall.transform.gameObject != currentWall.gameObject))
+            {
+                currentWall = wall.transform;
+                newUpVec = (spider.position - wall.point).normalized;
+            }
+        }
 
-        spiderEmpty.rotation = Quaternion.Lerp(spiderEmpty.rotation,
-            Quaternion.Euler(spiderEmpty.forward * legController.leftRightTilt +
-            spiderEmpty.right * legController.frontBackTilt), Time.deltaTime * tiltSpeed);
+        if (currentWall == null)
+            return;
+
+        spider.up = Vector3.Lerp(spider.up, newUpVec, Time.deltaTime * rotationSpeed);
+
     }
 }

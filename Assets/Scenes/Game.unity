@@ -148,7 +148,7 @@ Transform:
   m_GameObject: {fileID: 57803291}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.02, y: 3.01, z: -0.18}
+  m_LocalPosition: {x: -2.02, y: 6.82, z: 15.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -179,7 +179,7 @@ Transform:
   m_GameObject: {fileID: 59224156}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.46, y: 0.09, z: 1.3}
+  m_LocalPosition: {x: -2.46, y: 0.09, z: 2.6}
   m_LocalScale: {x: 0.100000024, y: 0.10000001, z: 0.09999999}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -759,10 +759,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 553205190}
+  - component: {fileID: 553205191}
   m_Layer: 3
   m_Name: RightRearLegTip
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -775,12 +776,34 @@ Transform:
   m_GameObject: {fileID: 553205189}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.11, y: -0.017, z: -2.033}
+  m_LocalPosition: {x: 3.17, y: -0.017, z: -2.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 543450651999868366}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &553205191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553205189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce029ed5bf94b0c479dacb53992ed1ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  legRaycastOrigin: {fileID: 553205190}
+  legTarget: {fileID: 90844853}
+  spiderBody: {fileID: 543450651999868366}
+  forwardsStepTreshold: 1.8
+  backwardsStepTreshold: 1
+  minLegSpacingFromBody: 1.8
+  stepHeight: 1.2
+  stepSpeed: 10
+  legDelay: 0.2
+  sphereRadius: 0.2
 --- !u!1 &635654686
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,10 +938,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 811998342}
+  - component: {fileID: 811998343}
   m_Layer: 3
   m_Name: LeftFrontLegTip
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -931,12 +955,34 @@ Transform:
   m_GameObject: {fileID: 811998341}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.134, y: -0.292, z: 2.15}
+  m_LocalPosition: {x: -2.47, y: -0.292, z: 4.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 543450651999868366}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &811998343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 811998341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce029ed5bf94b0c479dacb53992ed1ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  legRaycastOrigin: {fileID: 811998342}
+  legTarget: {fileID: 59224157}
+  spiderBody: {fileID: 543450651999868366}
+  forwardsStepTreshold: 2
+  backwardsStepTreshold: 1
+  minLegSpacingFromBody: 2
+  stepHeight: 1.2
+  stepSpeed: 10
+  legDelay: 0.1
+  sphereRadius: 0.2
 --- !u!1 &898914976
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,7 +1087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 90844853}
-  centerOfMass: {fileID: 543450651999868366}
+  spider: {fileID: 543450651999868366}
   heightOffset: 2
   hint: {fileID: 2025219764}
 --- !u!1 &940247043
@@ -1237,7 +1283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1824558649}
-  centerOfMass: {fileID: 543450651999868366}
+  spider: {fileID: 543450651999868366}
   heightOffset: 2
   hint: {fileID: 940247044}
 --- !u!1 &1039551286
@@ -1312,10 +1358,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1160495389}
+  - component: {fileID: 1160495390}
   m_Layer: 3
   m_Name: LeftRearLegTip
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1328,12 +1375,34 @@ Transform:
   m_GameObject: {fileID: 1160495388}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.42, y: 0.011, z: -1.97}
+  m_LocalPosition: {x: -3.02, y: 0.011, z: -2.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 543450651999868366}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1160495390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160495388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce029ed5bf94b0c479dacb53992ed1ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  legRaycastOrigin: {fileID: 1160495389}
+  legTarget: {fileID: 1933802279}
+  spiderBody: {fileID: 543450651999868366}
+  forwardsStepTreshold: 1.8
+  backwardsStepTreshold: 1
+  minLegSpacingFromBody: 1.8
+  stepHeight: 1.2
+  stepSpeed: 10
+  legDelay: 0.3
+  sphereRadius: 0.2
 --- !u!1 &1190528207
 GameObject:
   m_ObjectHideFlags: 0
@@ -1452,7 +1521,7 @@ GameObject:
   - component: {fileID: 1312528660}
   - component: {fileID: 1312528659}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1614,7 +1683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 59224157}
-  centerOfMass: {fileID: 543450651999868366}
+  spider: {fileID: 543450651999868366}
   heightOffset: 2
   hint: {fileID: 227503933}
 --- !u!1 &1370584121
@@ -1799,7 +1868,7 @@ GameObject:
   - component: {fileID: 1480166384}
   - component: {fileID: 1480166385}
   - component: {fileID: 1480166386}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Runner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1823,7 +1892,7 @@ Transform:
   m_GameObject: {fileID: 1480166379}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.29, y: 2.31, z: -7.59}
+  m_LocalPosition: {x: 9.29, y: 1.46, z: -3.16}
   m_LocalScale: {x: 0.9, y: 1, z: 0.9}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2235,7 +2304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1933802279}
-  centerOfMass: {fileID: 543450651999868366}
+  spider: {fileID: 543450651999868366}
   heightOffset: 2
   hint: {fileID: 635654687}
 --- !u!1 &1824558648
@@ -2263,7 +2332,7 @@ Transform:
   m_GameObject: {fileID: 1824558648}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.28, y: 0.08975887, z: 1.27}
+  m_LocalPosition: {x: 5.28, y: 0.08975887, z: 2.5699997}
   m_LocalScale: {x: 0.10000001, y: 0.099999994, z: 0.099999994}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2415,10 +2484,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2021236999}
+  - component: {fileID: 2021237000}
   m_Layer: 3
   m_Name: RightFrontLegTip
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2431,12 +2501,34 @@ Transform:
   m_GameObject: {fileID: 2021236998}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.603, y: -0.289, z: 2.12}
+  m_LocalPosition: {x: 2.05, y: -0.289, z: 4.3799996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 543450651999868366}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2021237000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021236998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce029ed5bf94b0c479dacb53992ed1ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  legRaycastOrigin: {fileID: 2021236999}
+  legTarget: {fileID: 1824558649}
+  spiderBody: {fileID: 543450651999868366}
+  forwardsStepTreshold: 2
+  backwardsStepTreshold: 1
+  minLegSpacingFromBody: 2
+  stepHeight: 1.2
+  stepSpeed: 10
+  legDelay: 0.4
+  sphereRadius: 0.2
 --- !u!1 &2025219763
 GameObject:
   m_ObjectHideFlags: 0
@@ -2702,7 +2794,6 @@ GameObject:
   - component: {fileID: 5866666020304179124}
   - component: {fileID: 5866666020304179125}
   - component: {fileID: 5866666020304179126}
-  - component: {fileID: 5866666020304179127}
   m_Layer: 3
   m_Name: RiggedSpider
   m_TagString: Untagged
@@ -3173,80 +3264,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 919132147541364596}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e03f32d86ef707b4f999ec12c017d4c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  legs:
-  - tip: {fileID: 811998342}
-    target: {fileID: 59224157}
-    oppositeLegIndices: 0100000003000000
-    isFront: 0
-    isRight: 0
-    lerp: 0
-    tohitPos: {x: 0, y: 0, z: 0}
-    bezierTopPoint: {x: 0, y: 0, z: 0}
-    initialPosition: {x: 0, y: 0, z: 0}
-    destinationPosition: {x: 0, y: 0, z: 0}
-  - tip: {fileID: 2021236999}
-    target: {fileID: 1824558649}
-    oppositeLegIndices: 0000000002000000
-    isFront: 0
-    isRight: 0
-    lerp: 0
-    tohitPos: {x: 0, y: 0, z: 0}
-    bezierTopPoint: {x: 0, y: 0, z: 0}
-    initialPosition: {x: 0, y: 0, z: 0}
-    destinationPosition: {x: 0, y: 0, z: 0}
-  - tip: {fileID: 553205190}
-    target: {fileID: 90844853}
-    oppositeLegIndices: 0100000003000000
-    isFront: 0
-    isRight: 0
-    lerp: 0
-    tohitPos: {x: 0, y: 0, z: 0}
-    bezierTopPoint: {x: 0, y: 0, z: 0}
-    initialPosition: {x: 0, y: 0, z: 0}
-    destinationPosition: {x: 0, y: 0, z: 0}
-  - tip: {fileID: 1160495389}
-    target: {fileID: 1933802279}
-    oppositeLegIndices: 0000000002000000
-    isFront: 0
-    isRight: 0
-    lerp: 0
-    tohitPos: {x: 0, y: 0, z: 0}
-    bezierTopPoint: {x: 0, y: 0, z: 0}
-    initialPosition: {x: 0, y: 0, z: 0}
-    destinationPosition: {x: 0, y: 0, z: 0}
-  spiderEmpty: {fileID: 543450651999868366}
-  stepSpeed: 5
-  stepHeight: 2
-  stepTreshold: 2
-  tilt: -8
-  layer:
-    serializedVersion: 2
-    m_Bits: 1
-  leftRightTilt: 0
-  frontBackTilt: 0
---- !u!114 &5866666020304179127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132147541364596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f949acfbceb741c44b92db6164308cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1480166383}
   runnerTarget: {fileID: 57803292}
-  spiderEmpty: {fileID: 543450651999868366}
-  movementSpeed: 5
-  rotationSpeed: 50
-  stopRotatingTreshold: 2
-  legController: {fileID: 5866666020304179126}
-  tiltSpeed: 3
+  spider: {fileID: 543450651999868366}
+  movementSpeed: 2
+  rotationSpeed: 2
+  stopRotatingTreshold: 4
+  wallClimbDistance: 5
+  heightOffGround: 1
 --- !u!1 &6088254696917477782
 GameObject:
   m_ObjectHideFlags: 0

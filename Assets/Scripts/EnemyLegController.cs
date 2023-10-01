@@ -10,6 +10,7 @@ public class EnemyLegController : MonoBehaviour
     [SerializeField] private float stepSpeed;
     [SerializeField] private float stepHeight;
     [SerializeField] private float stepTreshold;
+    [SerializeField] private float raycastHeight;
     [SerializeField] private float tilt;
     [SerializeField] private LayerMask layer;
 
@@ -56,7 +57,10 @@ public class EnemyLegController : MonoBehaviour
                     continue;
             }
 
-            if ((targetPos - tipPos).magnitude >= stepTreshold && Vector3.Dot((tipPos - targetPos).normalized, spiderEmpty.up) <= 0.8f)
+            bool targetNotOverFoot = Vector3.Dot((tipPos - targetPos).normalized, spiderEmpty.up) <= 0.9f 
+                && Vector3.Dot((tipPos - targetPos).normalized, spiderEmpty.up) >= -0.9f;
+
+            if ((targetPos - tipPos).magnitude >= stepTreshold && targetNotOverFoot)
             {
                 bool canTakeStep = true;
 
@@ -72,14 +76,14 @@ public class EnemyLegController : MonoBehaviour
                 if (!canTakeStep)
                     continue;
 
-                Vector3 raycastFrom = new Vector3(tipPos.x, spiderEmpty.position.y, tipPos.z);
+                Vector3 raycastFromTip = tipPos + spiderEmpty.up * raycastHeight;
 
-                if (Physics.Raycast(raycastFrom, Vector3.down, out hit, 10.0f ,layer) && legs[i].lerp >= 1)
+                if (Physics.Raycast(raycastFromTip, -spiderEmpty.up, out hit, Mathf.Infinity, layer) && legs[i].lerp >= 1)
                 {
                     legs[i].tohitPos = hit.point - targetPos;
                     legs[i].initialPosition = legs[i].target.position;
                     legs[i].bezierTopPoint = targetPos + (legs[i].tohitPos.normalized * legs[i].tohitPos.magnitude / 2) 
-                        + ((raycastFrom - hit.point).normalized * stepHeight);
+                        + ((raycastFromTip - hit.point).normalized * stepHeight);
                     legs[i].destinationPosition = hit.point;
 
                     legs[i].lerp = 0;
@@ -88,8 +92,9 @@ public class EnemyLegController : MonoBehaviour
                 continue;
             }
 
-            if(Physics.Raycast(new Vector3(targetPos.x, spiderEmpty.position.y, targetPos.z), 
-                Vector3.down, out hit, 10.0f, layer) && legs[i].lerp < 1)
+            Vector3 raycastFromTarget = targetPos + spiderEmpty.up * raycastHeight;
+
+            if (Physics.Raycast(raycastFromTarget, -spiderEmpty.up, out hit, Mathf.Infinity, layer) && legs[i].lerp < 1)
             {
                 legs[i].destinationPosition = hit.point;
                 legs[i].initialPosition = legs[i].target.position;
