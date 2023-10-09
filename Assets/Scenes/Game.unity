@@ -148,7 +148,7 @@ Transform:
   m_GameObject: {fileID: 57803291}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.02, y: 6.82, z: 15.43}
+  m_LocalPosition: {x: -2.8, y: 2.68, z: -0.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -797,12 +797,16 @@ MonoBehaviour:
   legRaycastOrigin: {fileID: 553205190}
   legTarget: {fileID: 90844853}
   spiderBody: {fileID: 543450651999868366}
-  forwardsStepTreshold: 1.8
+  forwardsStepTreshold: 0.5
   backwardsStepTreshold: 1
   minLegSpacingFromBody: 1.8
   stepHeight: 1.2
   stepSpeed: 10
+  legExtension: 7
+  legSplay: 0.441
   legDelay: 0.2
+  rightLeg: 1
+  frontLeg: 0
   sphereRadius: 0.2
 --- !u!1 &635654686
 GameObject:
@@ -976,12 +980,16 @@ MonoBehaviour:
   legRaycastOrigin: {fileID: 811998342}
   legTarget: {fileID: 59224157}
   spiderBody: {fileID: 543450651999868366}
-  forwardsStepTreshold: 2
+  forwardsStepTreshold: 0.5
   backwardsStepTreshold: 1
   minLegSpacingFromBody: 2
   stepHeight: 1.2
   stepSpeed: 10
+  legExtension: 7
+  legSplay: 0.441
   legDelay: 0.1
+  rightLeg: 0
+  frontLeg: 1
   sphereRadius: 0.2
 --- !u!1 &898914976
 GameObject:
@@ -1396,12 +1404,16 @@ MonoBehaviour:
   legRaycastOrigin: {fileID: 1160495389}
   legTarget: {fileID: 1933802279}
   spiderBody: {fileID: 543450651999868366}
-  forwardsStepTreshold: 1.8
+  forwardsStepTreshold: 0.5
   backwardsStepTreshold: 1
   minLegSpacingFromBody: 1.8
   stepHeight: 1.2
   stepSpeed: 10
+  legExtension: 7
+  legSplay: 0.441
   legDelay: 0.3
+  rightLeg: 0
+  frontLeg: 0
   sphereRadius: 0.2
 --- !u!1 &1190528207
 GameObject:
@@ -2522,12 +2534,16 @@ MonoBehaviour:
   legRaycastOrigin: {fileID: 2021236999}
   legTarget: {fileID: 1824558649}
   spiderBody: {fileID: 543450651999868366}
-  forwardsStepTreshold: 2
+  forwardsStepTreshold: 0.5
   backwardsStepTreshold: 1
   minLegSpacingFromBody: 2
   stepHeight: 1.2
   stepSpeed: 10
+  legExtension: 7
+  legSplay: 0.441
   legDelay: 0.4
+  rightLeg: 1
+  frontLeg: 1
   sphereRadius: 0.2
 --- !u!1 &2025219763
 GameObject:
@@ -3262,7 +3278,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132147541364596}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f949acfbceb741c44b92db6164308cef, type: 3}
   m_Name: 
@@ -3274,7 +3290,7 @@ MonoBehaviour:
   rotationSpeed: 2
   stopRotatingTreshold: 4
   wallClimbDistance: 5
-  heightOffGround: 1
+  heightOffGround: 0
 --- !u!1 &6088254696917477782
 GameObject:
   m_ObjectHideFlags: 0

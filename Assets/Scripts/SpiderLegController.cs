@@ -16,7 +16,12 @@ namespace PROJECT_CONSCIENTIA
         [SerializeField] private float stepHeight;
         [SerializeField] private float stepSpeed;
 
+        [SerializeField] private float legExtension;
+        [Range(0,1)][SerializeField] private float legSplay;
+
         [SerializeField] private float legDelay;
+        [SerializeField] private bool rightLeg;
+        [SerializeField] private bool frontLeg;
 
         [Header("Debug")]
         [SerializeField] private float sphereRadius;
@@ -59,10 +64,16 @@ namespace PROJECT_CONSCIENTIA
 
             yield return new WaitForSeconds(legDelay);
 
+            legRaycastOrigin.position = spiderBody.position + Vector3.Lerp(
+                (frontLeg ? spiderBody.forward : -spiderBody.forward) * legExtension,
+                (rightLeg ? spiderBody.right : -spiderBody.right) * legExtension, legSplay) ;
+
             if (Physics.Raycast(legRaycastOrigin.position, -spiderBody.up, out nextStepHit))
             {
                 RaycastHit wallHit;
-                if (Physics.Raycast(spiderBody.position, (nextStepHit.point - spiderBody.position).normalized, out wallHit))
+                Vector3 toTarget = (nextStepHit.point - spiderBody.position).normalized;
+
+                if (Physics.Raycast(spiderBody.position, toTarget, out wallHit))
                 {
                     if (wallHit.transform.gameObject != nextStepHit.transform.gameObject)
                     {
