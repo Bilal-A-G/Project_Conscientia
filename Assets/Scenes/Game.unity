@@ -148,7 +148,7 @@ Transform:
   m_GameObject: {fileID: 57803291}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.8, y: 2.68, z: -0.24}
+  m_LocalPosition: {x: 20.97, y: 2.68, z: 6.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -776,7 +776,7 @@ Transform:
   m_GameObject: {fileID: 553205189}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.17, y: -0.017, z: -2.79}
+  m_LocalPosition: {x: 2.47, y: -0.292, z: -4.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -797,16 +797,15 @@ MonoBehaviour:
   legRaycastOrigin: {fileID: 553205190}
   legTarget: {fileID: 90844853}
   spiderBody: {fileID: 543450651999868366}
-  forwardsStepTreshold: 0.5
-  backwardsStepTreshold: 1
-  minLegSpacingFromBody: 1.8
+  stepTreshold: 1
   stepHeight: 1.2
-  stepSpeed: 10
-  legExtension: 7
-  legSplay: 0.441
-  legDelay: 0.2
+  stepSpeed: 5
   rightLeg: 1
   frontLeg: 0
+  velocityPrediction: 0
+  oppositeLegs:
+  - {fileID: 2021237000}
+  - {fileID: 1160495390}
   sphereRadius: 0.2
 --- !u!1 &635654686
 GameObject:
@@ -980,16 +979,15 @@ MonoBehaviour:
   legRaycastOrigin: {fileID: 811998342}
   legTarget: {fileID: 59224157}
   spiderBody: {fileID: 543450651999868366}
-  forwardsStepTreshold: 0.5
-  backwardsStepTreshold: 1
-  minLegSpacingFromBody: 2
+  stepTreshold: 1
   stepHeight: 1.2
-  stepSpeed: 10
-  legExtension: 7
-  legSplay: 0.441
-  legDelay: 0.1
+  stepSpeed: 5
   rightLeg: 0
   frontLeg: 1
+  velocityPrediction: 0
+  oppositeLegs:
+  - {fileID: 2021237000}
+  - {fileID: 1160495390}
   sphereRadius: 0.2
 --- !u!1 &898914976
 GameObject:
@@ -1383,7 +1381,7 @@ Transform:
   m_GameObject: {fileID: 1160495388}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.02, y: 0.011, z: -2.64}
+  m_LocalPosition: {x: -2.47, y: -0.292, z: -4.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1404,16 +1402,15 @@ MonoBehaviour:
   legRaycastOrigin: {fileID: 1160495389}
   legTarget: {fileID: 1933802279}
   spiderBody: {fileID: 543450651999868366}
-  forwardsStepTreshold: 0.5
-  backwardsStepTreshold: 1
-  minLegSpacingFromBody: 1.8
+  stepTreshold: 1.5
   stepHeight: 1.2
-  stepSpeed: 10
-  legExtension: 7
-  legSplay: 0.441
-  legDelay: 0.3
+  stepSpeed: 5
   rightLeg: 0
   frontLeg: 0
+  velocityPrediction: 0
+  oppositeLegs:
+  - {fileID: 811998343}
+  - {fileID: 553205191}
   sphereRadius: 0.2
 --- !u!1 &1190528207
 GameObject:
@@ -2513,7 +2510,7 @@ Transform:
   m_GameObject: {fileID: 2021236998}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.05, y: -0.289, z: 4.3799996}
+  m_LocalPosition: {x: 2.47, y: -0.292, z: 4.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2534,16 +2531,15 @@ MonoBehaviour:
   legRaycastOrigin: {fileID: 2021236999}
   legTarget: {fileID: 1824558649}
   spiderBody: {fileID: 543450651999868366}
-  forwardsStepTreshold: 0.5
-  backwardsStepTreshold: 1
-  minLegSpacingFromBody: 2
+  stepTreshold: 1.5
   stepHeight: 1.2
-  stepSpeed: 10
-  legExtension: 7
-  legSplay: 0.441
-  legDelay: 0.4
+  stepSpeed: 5
   rightLeg: 1
   frontLeg: 1
+  velocityPrediction: 0
+  oppositeLegs:
+  - {fileID: 811998343}
+  - {fileID: 553205191}
   sphereRadius: 0.2
 --- !u!1 &2025219763
 GameObject:
@@ -3284,13 +3280,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1480166383}
-  runnerTarget: {fileID: 57803292}
   spider: {fileID: 543450651999868366}
-  movementSpeed: 2
-  rotationSpeed: 2
-  stopRotatingTreshold: 4
-  wallClimbDistance: 5
-  heightOffGround: 0
+  movementSpeed: 3
+  stopChaseThreshold: 1
 --- !u!1 &6088254696917477782
 GameObject:
   m_ObjectHideFlags: 0
