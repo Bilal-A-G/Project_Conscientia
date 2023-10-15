@@ -148,7 +148,7 @@ Transform:
   m_GameObject: {fileID: 57803291}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.74, y: 0.98, z: 14.41}
+  m_LocalPosition: {x: -7.37, y: 1.39, z: -3.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3189,12 +3189,15 @@ MonoBehaviour:
   stepTreshold: 1.7
   stepHeight: 2
   stepSpeed: 8
+  minDistanceFromBody: 3
+  velocityPrediction: 0
+  planeMarchStepAmount: 0.1
+  legReachedTargetThreshold: 0.5
+  stopMoving: 1
   runner: {fileID: 830435223}
   movementSpeed: 5
   stopChaseDistance: 2
-  yawSpeed: 50
-  pitchSpeed: 0
-  velocityPrediction: 1
+  rotationSpeed: 5
 --- !u!1 &6088254696917477782
 GameObject:
   m_ObjectHideFlags: 0
