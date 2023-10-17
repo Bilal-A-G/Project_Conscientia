@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class MonsterIKController : MonoBehaviour
 {
-    [Header("Inverse Kinematics")]
+    [Header("Movement")]
     [SerializeField] private Leg[] legs;
     [SerializeField] private Transform spider;
-    [SerializeField] private float stepTreshold;
+
+    [HideInInspector] public float stepTreshold;
+    [HideInInspector] public float stepSpeed;
+
     [SerializeField] private float stepHeight;
-    [SerializeField] private float stepSpeed;
     [SerializeField] private float minDistanceFromBody;
     [SerializeField] private float velocityPrediction;
     [SerializeField] private float planeMarchStepAmount;
@@ -17,11 +19,9 @@ public class MonsterIKController : MonoBehaviour
     [SerializeField] private float raycastRange;
     [Range(0, 1)] [SerializeField] private float climbingAggressiveness;
 
-    [Header("Movement")]
-    [SerializeField] private bool stopMoving;
+    [Header("Rotation")]
     [SerializeField] private Transform runner;
-    [SerializeField] private float movementSpeed;
-    [SerializeField] private float stopChaseDistance;
+    [SerializeField] private float stopRotationDistance;
     [SerializeField] private float rotationSpeed;
 
     private Leg currentMovingLeg = null;
@@ -40,15 +40,12 @@ public class MonsterIKController : MonoBehaviour
 
     void Update()
     {
-        MoveAndRotate();
+        Rotate();
 
         for (int i = 0; i < legs.Length; i++)
         {
             RaycastHit hit;
             Leg currentLeg = legs[i];
-
-            if (isMoving)
-                break;
 
             Vector3 toIkTarget = currentLeg.Iktarget.position - spider.position;
 
@@ -60,25 +57,29 @@ public class MonsterIKController : MonoBehaviour
                 RaycastHit secondWallHit;
                 if(Physics.Raycast(nextStepPosition + currentLeg.currentPlane.normal * 0.5f, -currentLeg.currentPlane.normal, out secondWallHit))
                 {
-                    if(secondWallHit.transform.gameObject != currentLeg.currentPlane.transform.gameObject)
+                    if (!isMoving)
                     {
-                        currentLeg.Iktarget.position = secondWallHit.point;
-                        currentLeg.nextPosition = secondWallHit.point;
-                        currentLeg.previousPosition = secondWallHit.point;
-                        currentLeg.currentPlane = secondWallHit;
-                    }
-                    else
-                   {
-                        currentLeg.Iktarget.position = nextStepPosition;
-                        currentLeg.nextPosition = nextStepPosition;
-                        currentLeg.previousPosition = nextStepPosition;
+                        if (secondWallHit.transform.gameObject != currentLeg.currentPlane.transform.gameObject)
+                        {
+                            currentLeg.Iktarget.position = secondWallHit.point;
+                            currentLeg.nextPosition = secondWallHit.point;
+                            currentLeg.previousPosition = secondWallHit.point;
+                            currentLeg.currentPlane = secondWallHit;
+                        }
+                        else
+                        {
+                            currentLeg.Iktarget.position = nextStepPosition;
+                            currentLeg.nextPosition = nextStepPosition;
+                            currentLeg.previousPosition = nextStepPosition;
+                        }
                     }
                 }
             }
 
             if (currentLeg.currentPlane.normal == null || currentLeg.currentPlane.normal == Vector3.zero)
             {
-                currentLeg.currentPlane.normal = spider.up;
+                if(!isMoving)
+                    currentLeg.currentPlane.normal = spider.up;
             }
 
             if (Physics.Raycast(currentLeg.raycastPosition.position, -spider.up, out hit, raycastRange))
@@ -105,14 +106,19 @@ public class MonsterIKController : MonoBehaviour
                 {
                     Vector3 toTarget = nextMovePosition - currentPosition;
 
-                    currentLeg.nextPosition = nextMovePosition + (spider.position - spiderPosLastFrame).normalized * velocityPrediction;
-                    currentLeg.previousPosition = currentPosition;
-                    currentLeg.bezierTopPosition = currentPosition + (toTarget.normalized *
-                        toTarget.magnitude / 2 + spider.up * stepHeight);
-                    currentLeg.currentPlane = hit;
+                    if (!isMoving)
+                    {
+                        currentLeg.nextPosition = nextMovePosition + (spider.position - spiderPosLastFrame).normalized * velocityPrediction;
+                        currentLeg.previousPosition = currentPosition;
+                        currentLeg.bezierTopPosition = currentPosition + (toTarget.normalized *
+                            toTarget.magnitude / 2 + spider.up * stepHeight);
+                        currentLeg.currentPlane = hit;
+                    }
 
                     if (!legsToMoveIndicesAndDistances.ContainsKey(i))
                         legsToMoveIndicesAndDistances.Add(i, toTarget.magnitude + currentLeg.movePriority);
+                    else
+                        legsToMoveIndicesAndDistances[i] = toTarget.magnitude + currentLeg.movePriority;
                 }
             }
 
@@ -167,7 +173,7 @@ public class MonsterIKController : MonoBehaviour
         spiderPosLastFrame = spider.position;
     }
 
-    private void MoveAndRotate()
+    private void Rotate()
     {
         Vector3 toRunner = runner.position - spider.position;
 
@@ -184,13 +190,10 @@ public class MonsterIKController : MonoBehaviour
         Vector3 legsUp = Vector3.Cross(rightToLeft, backToFront).normalized;
         Vector3 newUp = Vector3.Lerp(legsUp, runner.up, climbingAggressiveness);
 
-        if (toRunner.magnitude > stopChaseDistance)
-        {
-            if (stopMoving)
-                return;
-            spider.position += movementSpeed * Time.deltaTime * toRunner.normalized;
-            spider.up = Vector3.Lerp(spider.up, newUp, Time.deltaTime * rotationSpeed);
-        }
+        if (toRunner.magnitude < stopRotationDistance)
+            return;
+
+        spider.up = Vector3.Lerp(spider.up, newUp, Time.deltaTime * rotationSpeed);
     }
 
     private void OnDrawGizmos()
