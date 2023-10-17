@@ -14,6 +14,8 @@ public class MonsterIKController : MonoBehaviour
     [SerializeField] private float velocityPrediction;
     [SerializeField] private float planeMarchStepAmount;
     [SerializeField] private float legReachedTargetThreshold;
+    [SerializeField] private float raycastRange;
+    [Range(0, 1)] [SerializeField] private float climbingAggressiveness;
 
     [Header("Movement")]
     [SerializeField] private bool stopMoving;
@@ -28,14 +30,11 @@ public class MonsterIKController : MonoBehaviour
     private float lerp;
 
     private Dictionary<int, float> legsToMoveIndicesAndDistances;
-    private Vector3 newUp;
     private Vector3 spiderPosLastFrame;
 
     private void Start()
     {
         legsToMoveIndicesAndDistances = new Dictionary<int, float>();
-
-        newUp = spider.up;
         spiderPosLastFrame = spider.position;
     }
 
@@ -51,55 +50,59 @@ public class MonsterIKController : MonoBehaviour
             if (isMoving)
                 break;
 
-            //if (toIKTarget.magnitude < minDistanceFromBody)
-            //{
-            //    Vector3 nextStepPosition = currentLeg.Iktarget.position + 
-            //        Vector3.ProjectOnPlane(toIKTarget.normalized * planeMarchStepAmount, currentLeg.currentPlane.normal);
+            Vector3 toIkTarget = currentLeg.Iktarget.position - spider.position;
 
-            //    RaycastHit secondWallHit;
-            //    if(Physics.Raycast(nextStepPosition + currentLeg.currentPlane.normal * 0.5f, -currentLeg.currentPlane.normal, out secondWallHit))
-            //    {
-            //        if(secondWallHit.transform.gameObject != currentLeg.currentPlane.transform.gameObject)
-            //        {
-            //            Debug.Log(currentLeg.Iktarget.name + 
-            //                "Is supposed to shimmy off" + currentLeg.currentPlane.transform.name + " onto " 
-            //                + secondWallHit.transform.name);
+            if (toIkTarget.magnitude < minDistanceFromBody)
+            {
+                Vector3 nextStepPosition = currentLeg.Iktarget.position + 
+                    Vector3.ProjectOnPlane(toIkTarget.normalized * planeMarchStepAmount, currentLeg.currentPlane.normal);
 
-            //            currentLeg.Iktarget.position = secondWallHit.point;
-            //            currentLeg.nextPosition = secondWallHit.point;
-            //            currentLeg.previousPosition = secondWallHit.point;
-            //            currentLeg.currentPlane = secondWallHit;
-            //        }
-            //        else
-            //        {
-            //            Debug.Log("Shimmied leg: " + currentLeg.Iktarget.name);
-            //            currentLeg.Iktarget.position = nextStepPosition;
-            //            currentLeg.nextPosition = nextStepPosition;
-            //            currentLeg.previousPosition = nextStepPosition;
-            //        }
-            //    }
-            //}
+                RaycastHit secondWallHit;
+                if(Physics.Raycast(nextStepPosition + currentLeg.currentPlane.normal * 0.5f, -currentLeg.currentPlane.normal, out secondWallHit))
+                {
+                    if(secondWallHit.transform.gameObject != currentLeg.currentPlane.transform.gameObject)
+                    {
+                        currentLeg.Iktarget.position = secondWallHit.point;
+                        currentLeg.nextPosition = secondWallHit.point;
+                        currentLeg.previousPosition = secondWallHit.point;
+                        currentLeg.currentPlane = secondWallHit;
+                    }
+                    else
+                   {
+                        currentLeg.Iktarget.position = nextStepPosition;
+                        currentLeg.nextPosition = nextStepPosition;
+                        currentLeg.previousPosition = nextStepPosition;
+                    }
+                }
+            }
 
-            if (Physics.Raycast(currentLeg.raycastPosition.position, -spider.up, out hit, 10.0f))
+            if (currentLeg.currentPlane.normal == null || currentLeg.currentPlane.normal == Vector3.zero)
+            {
+                currentLeg.currentPlane.normal = spider.up;
+            }
+
+            if (Physics.Raycast(currentLeg.raycastPosition.position, -spider.up, out hit, raycastRange))
             {
                 Vector3 currentPosition = currentLeg.Iktarget.position;
+                legs[i].raycastHit = hit.point;
 
                 RaycastHit wallHit;
-                if(Physics.Raycast(spider.position, (hit.point - spider.position).normalized, out wallHit, 10.0f))
+                if(Physics.Raycast(spider.position, (hit.point - spider.position).normalized, out wallHit, raycastRange))
                 {
-                    if(wallHit.transform.gameObject != hit.transform.gameObject)
-                        hit = wallHit;
+                    if (wallHit.transform.gameObject != hit.transform.gameObject)
+                    {
+                        if (Physics.Raycast(spider.position, (currentLeg.raycastPosition.position - spider.position).normalized, out wallHit, raycastRange))
+                        {
+                           if(wallHit.transform.gameObject != hit.transform.gameObject)
+                                hit = wallHit;
+                        }
+                    }
                 }
 
                 Vector3 nextMovePosition = hit.point;
 
                 if ((nextMovePosition - currentLeg.Iktarget.position).magnitude > stepTreshold)
                 {
-                    while ((nextMovePosition - spider.position).magnitude < minDistanceFromBody)
-                    {
-                        nextMovePosition += Vector3.up * 0.5f;
-                    }
-
                     Vector3 toTarget = nextMovePosition - currentPosition;
 
                     currentLeg.nextPosition = nextMovePosition + (spider.position - spiderPosLastFrame).normalized * velocityPrediction;
@@ -178,14 +181,27 @@ public class MonsterIKController : MonoBehaviour
             -
             (legs[2].Iktarget.position + legs[1].Iktarget.position) / 2).normalized;
 
-        newUp = Vector3.Lerp(newUp, Vector3.Cross(rightToLeft, backToFront).normalized, Time.deltaTime);
-        spider.up = Vector3.Lerp(spider.up, newUp, Time.deltaTime * rotationSpeed);
+        Vector3 legsUp = Vector3.Cross(rightToLeft, backToFront).normalized;
+        Vector3 newUp = Vector3.Lerp(legsUp, runner.up, climbingAggressiveness);
 
         if (toRunner.magnitude > stopChaseDistance)
         {
             if (stopMoving)
                 return;
             spider.position += movementSpeed * Time.deltaTime * toRunner.normalized;
+            spider.up = Vector3.Lerp(spider.up, newUp, Time.deltaTime * rotationSpeed);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        for (int i = 0; i < legs.Length; i++)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(legs[i].nextPosition, 0.3f);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(legs[i].raycastHit, 0.3f);
         }
     }
 }
@@ -201,4 +217,5 @@ public class Leg
     [HideInInspector] public Vector3 bezierTopPosition;
     [HideInInspector] public Vector3 previousPosition;
     [HideInInspector] public RaycastHit currentPlane;
+    [HideInInspector] public Vector3 raycastHit;
 }
