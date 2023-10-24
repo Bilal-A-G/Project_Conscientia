@@ -192,8 +192,8 @@ public class MonsterIKController : MonoBehaviour
 
         if (toRunner.magnitude < stopRotationDistance)
             return;
-
-        spider.up = Vector3.Lerp(spider.up, newUp, Time.deltaTime * rotationSpeed);
+        Quaternion toTargetRotation = Quaternion.LookRotation(toRunner.normalized, newUp);
+        spider.rotation = Quaternion.Lerp(spider.rotation, toTargetRotation, Time.deltaTime * rotationSpeed);
     }
 
     private void OnDrawGizmos()
