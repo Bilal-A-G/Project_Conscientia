@@ -41,7 +41,7 @@ public class MonsterController : MonoBehaviour
         controller.stepTreshold = isRunning ? runStepThreshold : walkStepThreshold;
         runnerController.runnerSpeed = isRunning ? runnerRunSpeed : runnerWalkSpeed;
 
-        if(state == MonsterState.CHASE)
+        if (state == MonsterState.CHASE)
         {
             Spawn();
             target.transform.position = player.position;

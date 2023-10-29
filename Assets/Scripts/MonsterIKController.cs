@@ -175,8 +175,6 @@ public class MonsterIKController : MonoBehaviour
 
     private void Rotate()
     {
-        Vector3 toRunner = runner.position - spider.position;
-
         Vector3 backToFront =
             ((legs[0].Iktarget.position + legs[2].Iktarget.position) / 2
             -
@@ -190,9 +188,7 @@ public class MonsterIKController : MonoBehaviour
         Vector3 legsUp = Vector3.Cross(rightToLeft, backToFront).normalized;
         Vector3 newUp = Vector3.Lerp(legsUp, runner.up, climbingAggressiveness);
 
-        if (toRunner.magnitude < stopRotationDistance)
-            return;
-        Quaternion toTargetRotation = Quaternion.LookRotation(toRunner.normalized, newUp);
+        Quaternion toTargetRotation = Quaternion.LookRotation(runner.forward, newUp);
         spider.rotation = Quaternion.Lerp(spider.rotation, toTargetRotation, Time.deltaTime * rotationSpeed);
     }
 
